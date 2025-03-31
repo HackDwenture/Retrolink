@@ -14,35 +14,40 @@ namespace Retrolink
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(LoginTextBox.Text) || string.IsNullOrEmpty(PasswordTextBox.Password))
+            Auth(LoginTextBox.Text, PasswordTextBox.Password);
+        }
+
+        public bool Auth(string login, string password)
+        {
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Введите логин и пароль!");
-                return;
+                MessageBox.Show("Введите логин и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
             }
 
-            string hashedPassword = GetHash(PasswordTextBox.Password);
+            string hashedPassword = GetHash(password);
 
             using (var db = new Entities())
             {
                 var account = db.Accounts
-                                .AsNoTracking()
-                                .FirstOrDefault(a => a.Login == LoginTextBox.Text && a.Password == hashedPassword);
+                    .AsNoTracking()
+                    .FirstOrDefault(a => a.Login == login && a.Password == hashedPassword);
 
                 if (account == null)
                 {
-                    MessageBox.Show("Пользователь с такими данными не найден!");
-                    return;
+                    MessageBox.Show("Пользователь с такими данными не найден!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
                 }
 
                 var employee = db.Employees.FirstOrDefault(emp => emp.EmployeeID == account.EmployeeID);
 
                 if (employee == null)
                 {
-                    MessageBox.Show("Ошибка: Не найден сотрудник, связанный с этой учетной записью.");
-                    return;
+                    MessageBox.Show("Ошибка: Не найден сотрудник, связанный с этой учетной записью.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
                 }
 
-                
+                bool authSuccess = true;
                 switch (employee.RoleID)
                 {
                     case 1:
@@ -62,11 +67,17 @@ namespace Retrolink
                         supportWindow.Show();
                         break;
                     default:
-                        MessageBox.Show("Неизвестная должность сотрудника.");
-                        return;
+                        MessageBox.Show("Неизвестная должность сотрудника.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        authSuccess = false;
+                        break;
                 }
 
-                this.Close(); 
+                if (authSuccess)
+                {
+                    this.Close();
+                }
+
+                return true;
             }
         }
 
