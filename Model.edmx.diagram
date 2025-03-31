@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="08a6d354d6f64e03b088c8ae7a1258a5" Name="Diagram1">
+        <EntityTypeShape EntityType="RetrolinkModel.Accounts" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Contracts" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Customers" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Employees" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Equipment" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.InstalledEquipment" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Payments" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.ProvidedServices" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Services" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.SupportTickets" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RetrolinkModel.Tariffs" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="RetrolinkModel.FK__Accounts__Employ__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__Contracts__Custo__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__Contracts__Tarif__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__Installed__Contr__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__ProvidedS__Contr__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__Payments__Custom__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__SupportTi__Custo__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__ProvidedS__Emplo__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__Installed__Equip__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="RetrolinkModel.FK__ProvidedS__Servi__5070F446" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RetrolinkModel.Roles" Width="1.5" PointX="9.5" PointY="2.25" />
+        <AssociationConnector Association="RetrolinkModel.fk_employee_role" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
