@@ -19,7 +19,7 @@ namespace Retrolink
             {
                 using (var db = new Entities())
                 {
-                    // Загружаем сотрудников вместе с их ролями
+                    
                     var employees = db.Employees.Include("Roles").ToList();
                     EmployeesDataGrid.ItemsSource = employees;
                 }
