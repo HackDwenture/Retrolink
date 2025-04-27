@@ -1,0 +1,78 @@
+﻿<Page x:Class="Retrolink.Admin_pg.AddEditEmployeePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="AddEditEmployeePage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding WindowTitle}" Style="{StaticResource PageHeaderStyle}"/>
+
+            <StackPanel Grid.Row="1">
+                <GroupBox Header="Основная информация" Style="{StaticResource FormGroupStyle}">
+                    <StackPanel>
+                        <Label Content="Фамилия:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding LastName}"/>
+
+                        <Label Content="Имя:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding FirstName}"/>
+
+                        <Label Content="Отчество:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding Patronymic}"/>
+
+                        <Label Content="Телефон:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding PhoneNumber}"/>
+
+                        <Label Content="Email:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding Email}"/>
+
+                        <Label Content="Дата приема:" Style="{StaticResource FormLabelStyle}"/>
+                        <DatePicker SelectedDate="{Binding HireDate}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Учетная запись" Style="{StaticResource FormGroupStyle}">
+                    <StackPanel>
+                        <Label Content="Логин:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding Login}"/>
+
+                        <Label Content="Пароль:" Style="{StaticResource FormLabelStyle}"/>
+                        <PasswordBox x:Name="PasswordBox"/>
+
+                        <Label Content="Подтверждение пароля:" Style="{StaticResource FormLabelStyle}"/>
+                        <PasswordBox x:Name="ConfirmPasswordBox"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Должность" Style="{StaticResource FormGroupStyle}">
+                    <StackPanel>
+                        <Label Content="Роль:" Style="{StaticResource FormLabelStyle}"/>
+                        <ComboBox ItemsSource="{Binding Roles}" DisplayMemberPath="RoleName"
+                                  SelectedValuePath="RoleID" SelectedValue="{Binding SelectedRoleId}"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Сохранить" Style="{StaticResource CustomButtonStyle}" 
+                        Width="100" Margin="0,0,10,0" Click="SaveButton_Click"/>
+                <Button Content="Отмена" Style="{StaticResource CustomButtonStyle}" 
+                        Width="100" Click="CancelButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

@@ -5,19 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Retrolink"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="450" Width="800">
+        Title="AdminWindow" Height="700" Width="1200" MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
-        <DataGrid x:Name="EmployeesDataGrid" Margin="10" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" Width="Auto"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" Width="*"/>
-                <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="*"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
-                <DataGridTextColumn Header="Дата приема" Binding="{Binding HireDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Roles.RoleName}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#333333">
+            <StackPanel>
+                <Label Content="Администратор" Foreground="White" FontSize="18" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+                <Button Content="Список сотрудников" Style="{StaticResource MenuButtonStyle}" 
+                        Click="ShowEmployeesList_Click"/>
+                <Button Content="Добавить сотрудника" Style="{StaticResource MenuButtonStyle}" 
+                        Click="ShowAddEmployee_Click"/>
+                <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+                <Button Content="Список ролей" Style="{StaticResource MenuButtonStyle}" 
+                        Click="ShowRolesList_Click"/>
+                <Button Content="Добавить роль" Style="{StaticResource MenuButtonStyle}" 
+                        Click="ShowAddRole_Click"/>
+                <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+                <Button Content="Выход" Style="{StaticResource MenuButtonStyle}" Margin="0,50,0,0"
+                        Click="LogoutButton_Click"/>
+            </StackPanel>
+        </Border>
+
+        <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

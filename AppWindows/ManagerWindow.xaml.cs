@@ -1,9 +1,5 @@
-﻿using Retrolink.Manager_pg;
-using System;
-using System.Diagnostics.Contracts;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
 namespace Retrolink
 {
@@ -15,26 +11,17 @@ namespace Retrolink
         {
             InitializeComponent();
             _employee = employee;
-            Title = $"Окно менеджера - {_employee.FirstName} {_employee.LastName}";
+            Title = $"Окно инженера - {_employee.FirstName} {_employee.LastName}";
+
+            DisplayEmployeeInfo();
         }
 
-        private void ContractsMenuItem_Click(object sender, RoutedEventArgs e)
+        private void DisplayEmployeeInfo()
         {
-            Contracts contracts = new Contracts();
-            ManagerFrame.Navigate(new Manager_pg.ContractsView(contracts));
-        }
-
-        private void CustomersMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        private void PaymentsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        private void TariffsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
+            EmployeeNameLabel.Content = $"{_employee.FirstName} {_employee.LastName}";
+            EmployeePositionLabel.Content = _employee.RoleID;
+            EmployeePhoneLabel.Content = _employee.PhoneNumber;
+            EmployeeEmailLabel.Content = _employee.Email;
         }
     }
 }
