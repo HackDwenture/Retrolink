@@ -93,7 +93,29 @@
                     </DataGrid>
                 </StackPanel>
             </GroupBox>
+            <!-- Добавляем после GroupBox с контрактами -->
+            <GroupBox Grid.Row="3" Header="Платежи клиента" Style="{StaticResource FormGroupStyle}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <DatePicker x:Name="StartDatePicker" Margin="0,0,10,0" Width="150"/>
+                        <DatePicker x:Name="EndDatePicker" Margin="0,0,10,0" Width="150"/>
+                        <Button Content="Фильтровать" Style="{StaticResource CustomButtonStyle}" 
+                    Click="FilterPayments_Click" Padding="5" FontSize="12"/>
+                        <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" 
+                    Click="ResetPaymentsFilter_Click" Padding="5" FontSize="12" Margin="5,0,0,0"/>
+                    </StackPanel>
 
+                    <DataGrid x:Name="PaymentsDataGrid" Style="{StaticResource DataGridStyle}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding Amount, StringFormat={}{0:C}}" Width="*"/>
+                            <DataGridTextColumn Header="Способ оплаты" Binding="{Binding PaymentMethod}" Width="*"/>
+                            <DataGridTextColumn Header="ID платежа" Binding="{Binding PaymentID}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </GroupBox>
             <Button Grid.Row="3" Content="Назад" Style="{StaticResource CustomButtonStyle}" 
                     HorizontalAlignment="Left" Click="BackButton_Click"/>
         </Grid>

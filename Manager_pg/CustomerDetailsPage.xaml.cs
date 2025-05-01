@@ -35,6 +35,46 @@ namespace Retrolink.Manager_pg
             }
         }
 
+        private void LoadPayments()
+        {
+            using (var db = new Entities())
+            {
+                var payments = db.Payments
+                    .Where(p => p.CustomerID == _customer.CustomerID)
+                    .OrderByDescending(p => p.PaymentDate)
+                    .ToList();
+
+                PaymentsDataGrid.ItemsSource = payments;
+            }
+        }
+
+        private void FilterPayments_Click(object sender, RoutedEventArgs e)
+        {
+            if (StartDatePicker.SelectedDate == null || EndDatePicker.SelectedDate == null)
+            {
+                MessageBox.Show("Выберите даты для фильтрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (var db = new Entities())
+            {
+                var filteredPayments = db.Payments
+                    .Where(p => p.CustomerID == _customer.CustomerID &&
+                                p.PaymentDate >= StartDatePicker.SelectedDate &&
+                                p.PaymentDate <= EndDatePicker.SelectedDate)
+                    .OrderByDescending(p => p.PaymentDate)
+                    .ToList();
+
+                PaymentsDataGrid.ItemsSource = filteredPayments;
+            }
+        }
+
+        private void ResetPaymentsFilter_Click(object sender, RoutedEventArgs e)
+        {
+            StartDatePicker.SelectedDate = null;
+            EndDatePicker.SelectedDate = null;
+            LoadPayments();
+        }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             BackRequested?.Invoke();

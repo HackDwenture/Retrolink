@@ -56,6 +56,12 @@ namespace Retrolink
             MainFrame.Navigate(page);
         }
 
+        private void ShowReports_Click(object sender, RoutedEventArgs e)
+        {
+            var page = new Manager_pg.ReportsPage();
+            MainFrame.Navigate(page);
+        }
+
         private void DeleteCustomer(Customers customer)
         {
             if (MessageBox.Show($"Вы уверены, что хотите удалить клиента {customer.LastName} {customer.FirstName} и все связанные данные?",
