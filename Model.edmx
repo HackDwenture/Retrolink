@@ -115,6 +115,7 @@
           <Property Name="TicketDate" Type="date" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <EntityType Name="Tariffs">
           <Key>
@@ -258,6 +259,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SupportTickets_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="SupportTickets" Type="Self.SupportTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="SupportTickets">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище RetrolinkModelContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contracts" EntityType="Self.Contracts" Schema="dbo" store:Type="Tables" />
@@ -314,6 +327,10 @@
           <AssociationSet Name="fk_employee_role" Association="Self.fk_employee_role">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportTickets_Employees" Association="Self.FK_SupportTickets_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="SupportTickets" EntitySet="SupportTickets" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -376,6 +393,7 @@
           <NavigationProperty Name="ProvidedServices" Relationship="Self.FK__ProvidedS__Emplo__5165187F" FromRole="Employees" ToRole="ProvidedServices" />
           <Property Name="RoleID" Type="Int32" />
           <NavigationProperty Name="Roles" Relationship="RetrolinkModel.fk_employee_role" FromRole="Employees" ToRole="Roles" />
+          <NavigationProperty Name="SupportTickets" Relationship="RetrolinkModel.FK_SupportTickets_Employees" FromRole="Employees" ToRole="SupportTickets" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -443,6 +461,8 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="Self.FK__SupportTi__Custo__4AB81AF0" FromRole="SupportTickets" ToRole="Customers" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <NavigationProperty Name="Employees" Relationship="RetrolinkModel.FK_SupportTickets_Employees" FromRole="SupportTickets" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Tariffs">
           <Key>
@@ -632,6 +652,10 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="FK_SupportTickets_Employees" Association="RetrolinkModel.FK_SupportTickets_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="SupportTickets" EntitySet="SupportTickets" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Roles">
           <Key>
@@ -650,6 +674,18 @@
             </Principal>
             <Dependent Role="Employees">
               <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportTickets_Employees">
+          <End Type="RetrolinkModel.Employees" Role="Employees" Multiplicity="0..1" />
+          <End Type="RetrolinkModel.SupportTickets" Role="SupportTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="SupportTickets">
+              <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -765,6 +801,7 @@
           <EntitySetMapping Name="SupportTickets">
             <EntityTypeMapping TypeName="RetrolinkModel.SupportTickets">
               <MappingFragment StoreEntitySet="SupportTickets">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="TicketID" ColumnName="TicketID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="TicketDate" ColumnName="TicketDate" />

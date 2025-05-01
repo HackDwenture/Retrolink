@@ -19,6 +19,7 @@ namespace Retrolink
         {
             this.Accounts = new HashSet<Accounts>();
             this.ProvidedServices = new HashSet<ProvidedServices>();
+            this.SupportTickets = new HashSet<SupportTickets>();
         }
     
         public int EmployeeID { get; set; }
@@ -35,5 +36,7 @@ namespace Retrolink
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProvidedServices> ProvidedServices { get; set; }
         public virtual Roles Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupportTickets> SupportTickets { get; set; }
     }
 }

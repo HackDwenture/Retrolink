@@ -1,0 +1,101 @@
+﻿<Page x:Class="Retrolink.Manager_pg.CustomerDetailsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="CustomerDetailsPage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding CustomerName}" Style="{StaticResource PageHeaderStyle}"/>
+                <Button Content="Назад" Style="{StaticResource CustomButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="10,0,0,0" Click="BackButton_Click"/>
+            </StackPanel>
+
+            <GroupBox Grid.Row="1" Header="Информация о клиенте" Style="{StaticResource FormGroupStyle}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Телефон:"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PhoneNumber}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Email:"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Email}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес:"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата регистрации:"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Row="2" Header="Контракты клиента" Style="{StaticResource FormGroupStyle}">
+                <StackPanel>
+                    <Button Content="Добавить контракт" Style="{StaticResource CustomButtonStyle}" 
+                            HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddContract_Click"/>
+
+                    <DataGrid x:Name="ContractsDataGrid" Style="{StaticResource DataGridStyle}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата контракта" Binding="{Binding ContractDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
+                            <DataGridTextColumn Header="Тариф" Binding="{Binding Tariffs.TariffName}" Width="*"/>
+                            <DataGridTextColumn Header="Дата установки" Binding="{Binding InstallationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
+                            <DataGridTextColumn Header="Скорость" Binding="{Binding Tariffs.Speed}" Width="*"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Tariffs.Price}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding Tariffs.Price, StringFormat={}{0:C}}"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Изменить" Style="{StaticResource CustomButtonStyle}" 
+                                                    Padding="5" Margin="0,0,5,0" FontSize="12"
+                                                    Click="EditContract_Click"/>
+                                            <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
+                                                    Padding="5" FontSize="12"
+                                                    Click="DeleteContract_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </GroupBox>
+
+            <Button Grid.Row="3" Content="Назад" Style="{StaticResource CustomButtonStyle}" 
+                    HorizontalAlignment="Left" Click="BackButton_Click"/>
+        </Grid>
+    </ScrollViewer>
+</Page>

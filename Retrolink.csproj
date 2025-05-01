@@ -107,6 +107,18 @@
     <Compile Include="AppWindows\ManagerWindow.xaml.cs">
       <DependentUpon>ManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manager_pg\AddEditContractPage.xaml.cs">
+      <DependentUpon>AddEditContractPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_pg\AddEditCustomerPage.xaml.cs">
+      <DependentUpon>AddEditCustomerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_pg\CustomerDetailsPage.xaml.cs">
+      <DependentUpon>CustomerDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_pg\CustomersListPage.xaml.cs">
+      <DependentUpon>CustomersListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,6 +178,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="AppWindows\ManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manager_pg\AddEditContractPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manager_pg\AddEditCustomerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manager_pg\CustomerDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manager_pg\CustomersListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

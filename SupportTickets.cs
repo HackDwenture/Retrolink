@@ -19,7 +19,9 @@ namespace Retrolink
         public System.DateTime TicketDate { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public Nullable<int> EmployeeID { get; set; }
     
         public virtual Customers Customers { get; set; }
+        public virtual Employees Employees { get; set; }
     }
 }
