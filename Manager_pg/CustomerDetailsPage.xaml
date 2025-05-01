@@ -4,7 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
-      Title="CustomerDetailsPage">
+      Title="Подробности клиента">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,21 +17,24 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+            <!-- Заголовок -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding CustomerName}" Style="{StaticResource PageHeaderStyle}"/>
                 <Button Content="Назад" Style="{StaticResource CustomButtonStyle}" 
                         HorizontalAlignment="Right" Margin="10,0,0,0" Click="BackButton_Click"/>
             </StackPanel>
 
+            <!-- Информация о клиенте -->
             <GroupBox Grid.Row="1" Header="Информация о клиенте" Style="{StaticResource FormGroupStyle}">
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -39,85 +42,92 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Телефон:"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PhoneNumber}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PhoneNumber}" Margin="5"/>
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Email:"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Email}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Email}" Margin="5"/>
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес:"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" Margin="5" TextWrapping="Wrap"/>
 
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата регистрации:"/>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Паспортные данные:"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding PassportData}" Margin="5" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата регистрации:"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding RegistrationDate, StringFormat='dd.MM.yyyy'}" Margin="5"/>
                     </Grid>
                 </StackPanel>
             </GroupBox>
 
+            <!-- Контракты с кнопками управления -->
             <GroupBox Grid.Row="2" Header="Контракты клиента" Style="{StaticResource FormGroupStyle}">
                 <StackPanel>
-                    <Button Content="Добавить контракт" Style="{StaticResource CustomButtonStyle}" 
-                            HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddContract_Click"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Content="Добавить контракт" Style="{StaticResource CustomButtonStyle}" 
+                                Click="AddContract_Click" Margin="0,0,10,0"/>
+                        <Button Content="Редактировать" Style="{StaticResource CustomButtonStyle}" 
+                                Click="EditContract_Click" Margin="0,0,10,0"/>
+                        <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
+                                Click="DeleteContract_Click"/>
+                    </StackPanel>
 
                     <DataGrid x:Name="ContractsDataGrid" Style="{StaticResource DataGridStyle}"
-                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                              AutoGenerateColumns="False" IsReadOnly="True" Height="200"
+                              SelectionMode="Single" SelectionUnit="FullRow"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Дата контракта" Binding="{Binding ContractDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding ContractDate, StringFormat='dd.MM.yyyy'}" Width="*"/>
                             <DataGridTextColumn Header="Тариф" Binding="{Binding Tariffs.TariffName}" Width="*"/>
-                            <DataGridTextColumn Header="Дата установки" Binding="{Binding InstallationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
                             <DataGridTextColumn Header="Скорость" Binding="{Binding Tariffs.Speed}" Width="*"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Tariffs.Price}" Width="*">
+                            <DataGridTextColumn Header="Цена" Width="*">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="{Binding Tariffs.Price, StringFormat={}{0:C}}"/>
+                                        <Setter Property="Text" Value="{Binding Tariffs.Price, StringFormat='{}{0:N2} ₽'}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTemplateColumn Width="Auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Content="Изменить" Style="{StaticResource CustomButtonStyle}" 
-                                                    Padding="5" Margin="0,0,5,0" FontSize="12"
-                                                    Click="EditContract_Click"/>
-                                            <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
-                                                    Padding="5" FontSize="12"
-                                                    Click="DeleteContract_Click"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </GroupBox>
-            <!-- Добавляем после GroupBox с контрактами -->
+
+            <!-- Платежи с фильтрацией -->
             <GroupBox Grid.Row="3" Header="Платежи клиента" Style="{StaticResource FormGroupStyle}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <DatePicker x:Name="StartDatePicker" Margin="0,0,10,0" Width="150"/>
-                        <DatePicker x:Name="EndDatePicker" Margin="0,0,10,0" Width="150"/>
+                        <DatePicker x:Name="StartDatePicker" Width="120" Margin="0,0,10,0"/>
+                        <DatePicker x:Name="EndDatePicker" Width="120" Margin="0,0,10,0"/>
                         <Button Content="Фильтровать" Style="{StaticResource CustomButtonStyle}" 
-                    Click="FilterPayments_Click" Padding="5" FontSize="12"/>
+                                Padding="8,3" Click="FilterPayments_Click"/>
                         <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" 
-                    Click="ResetPaymentsFilter_Click" Padding="5" FontSize="12" Margin="5,0,0,0"/>
+                                Padding="8,3" Margin="5,0,0,0" Click="ResetPaymentsFilter_Click"/>
                     </StackPanel>
 
                     <DataGrid x:Name="PaymentsDataGrid" Style="{StaticResource DataGridStyle}"
-                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                              AutoGenerateColumns="False" IsReadOnly="True" Height="250"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
-                            <DataGridTextColumn Header="Сумма" Binding="{Binding Amount, StringFormat={}{0:C}}" Width="*"/>
-                            <DataGridTextColumn Header="Способ оплаты" Binding="{Binding PaymentMethod}" Width="*"/>
-                            <DataGridTextColumn Header="ID платежа" Binding="{Binding PaymentID}" Width="*"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding PaymentDate, StringFormat='dd.MM.yyyy'}" Width="*"/>
+                            <DataGridTextColumn Header="Сумма" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding Amount, StringFormat='{}{0:N2} ₽'}"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Метод" Binding="{Binding PaymentMethod}" Width="*"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding PaymentID}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </GroupBox>
-            <Button Grid.Row="3" Content="Назад" Style="{StaticResource CustomButtonStyle}" 
-                    HorizontalAlignment="Left" Click="BackButton_Click"/>
+
+            <Button Grid.Row="4" Content="Назад" Style="{StaticResource CustomButtonStyle}" 
+                    HorizontalAlignment="Left" Margin="0,10,0,0" Click="BackButton_Click"/>
         </Grid>
     </ScrollViewer>
 </Page>

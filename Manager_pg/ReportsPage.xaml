@@ -95,7 +95,13 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Дата" Binding="{Binding PaymentDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
                                 <DataGridTextColumn Header="Клиент" Binding="{Binding Customers.LastName}" Width="*"/>
-                                <DataGridTextColumn Header="Сумма" Binding="{Binding Amount, StringFormat={}{0:C}}" Width="*"/>
+                                <DataGridTextColumn Header="Сумма" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding Amount, StringFormat='{}{0:N2} ₽'}"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Header="Метод" Binding="{Binding PaymentMethod}" Width="*"/>
                                 <DataGridTextColumn Header="ID платежа" Binding="{Binding PaymentID}" Width="*"/>
                             </DataGrid.Columns>

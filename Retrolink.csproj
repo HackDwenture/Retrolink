@@ -111,11 +111,17 @@
     <Compile Include="Admin_pg\AddEditRolePage.xaml.cs">
       <DependentUpon>AddEditRolePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin_pg\AddEditTariffPage.xaml.cs">
+      <DependentUpon>AddEditTariffPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin_pg\EmployeesListPage.xaml.cs">
       <DependentUpon>EmployeesListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admin_pg\RolesListPage.xaml.cs">
       <DependentUpon>RolesListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_pg\TariffsListPage.xaml.cs">
+      <DependentUpon>TariffsListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppWindows\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
@@ -193,11 +199,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Admin_pg\AddEditTariffPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Admin_pg\EmployeesListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin_pg\RolesListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_pg\TariffsListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -35,6 +35,12 @@
                         Click="ShowRolesList_Click"/>
                 <Button Content="Добавить роль" Style="{StaticResource MenuButtonStyle}" 
                         Click="ShowAddRole_Click"/>
+                <!-- Добавляем в StackPanel меню после кнопок для ролей -->
+                <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+                <Button Content="Список тарифов" Style="{StaticResource MenuButtonStyle}" 
+        Click="ShowTariffsList_Click"/>
+                <Button Content="Добавить тариф" Style="{StaticResource MenuButtonStyle}" 
+        Click="ShowAddTariff_Click"/>
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Выход" Style="{StaticResource MenuButtonStyle}" Margin="0,50,0,0"
                         Click="LogoutButton_Click"/>

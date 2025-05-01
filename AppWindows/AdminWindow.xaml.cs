@@ -54,7 +54,66 @@ namespace Retrolink
             page.CancelClicked += () => ShowRolesList();
             MainFrame.Navigate(page);
         }
+        // Добавляем методы для работы с тарифами
+        private void ShowTariffsList_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTariffsList();
+        }
 
+        private void ShowAddTariff_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAddEditTariff(null);
+        }
+
+        private void ShowTariffsList()
+        {
+            var page = new Admin_pg.TariffsListPage();
+            page.EditTariffRequested += (tariff) => ShowAddEditTariff(tariff);
+            page.DeleteTariffRequested += (tariff) => DeleteTariff(tariff);
+            MainFrame.Navigate(page);
+        }
+
+        private void ShowAddEditTariff(Tariffs tariff)
+        {
+            var page = new Admin_pg.AddEditTariffPage(tariff);
+            page.SaveCompleted += () => ShowTariffsList();
+            page.CancelClicked += () => ShowTariffsList();
+            MainFrame.Navigate(page);
+        }
+
+        private void DeleteTariff(Tariffs tariff)
+        {
+            if (MessageBox.Show($"Вы уверены, что хотите удалить тариф {tariff.TariffName}?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    using (var db = new Entities())
+                    {
+                        // Проверяем, есть ли контракты с этим тарифом
+                        var contractsWithTariff = db.Contracts.Any(c => c.TariffID == tariff.TariffID);
+                        if (contractsWithTariff)
+                        {
+                            MessageBox.Show("Невозможно удалить тариф, так как есть активные контракты с этим тарифом",
+                                          "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var tariffToDelete = db.Tariffs.FirstOrDefault(t => t.TariffID == tariff.TariffID);
+                        if (tariffToDelete != null)
+                        {
+                            db.Tariffs.Remove(tariffToDelete);
+                            db.SaveChanges();
+                            ShowTariffsList();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при удалении тарифа: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
         private void DeleteEmployee(Employees employee)
         {
             if (MessageBox.Show($"Вы уверены, что хотите удалить сотрудника {employee.LastName} {employee.FirstName}?",
