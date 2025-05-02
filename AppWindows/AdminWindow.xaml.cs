@@ -24,6 +24,9 @@ namespace Retrolink
         private void ShowAddRole_Click(object sender, RoutedEventArgs e) => ShowAddEditRole(null);
         private void ShowServicesList_Click(object sender, RoutedEventArgs e) => ShowServicesList();
         private void ShowAddService_Click(object sender, RoutedEventArgs e) => ShowAddEditService(null);
+        private void ShowTariffsList_Click(object sender, RoutedEventArgs e) => ShowTariffsList();
+        private void ShowAddTariff_Click(object sender, RoutedEventArgs e) => ShowAddEditTariff(null);
+       
 
         private void ShowEmployeesList()
         {
@@ -56,16 +59,7 @@ namespace Retrolink
             page.CancelClicked += () => ShowRolesList();
             MainFrame.Navigate(page);
         }
-        private void ShowTariffsList_Click(object sender, RoutedEventArgs e)
-        {
-            ShowTariffsList();
-        }
-
-        private void ShowAddTariff_Click(object sender, RoutedEventArgs e)
-        {
-            ShowAddEditTariff(null);
-        }
-
+        
         private void ShowTariffsList()
         {
             var page = new Admin_pg.TariffsListPage();

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Retrolink"
         mc:Ignorable="d"
         Title="ManagerWindow" Height="700" Width="1200" MinHeight="600" MinWidth="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Icon="/logo.jpg">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
