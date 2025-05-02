@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Security.Cryptography;
 using System.Text;
+using System.ComponentModel;
 
 namespace Retrolink.Admin_pg
 {
@@ -38,7 +39,6 @@ namespace Retrolink.Admin_pg
             using (SHA256 sha256Hash = SHA256.Create())
             {
                 byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < bytes.Length; i++)
                 {
@@ -52,24 +52,36 @@ namespace Retrolink.Admin_pg
         {
             var viewModel = (AddEditEmployeeViewModel)DataContext;
 
-            if (string.IsNullOrWhiteSpace(viewModel.LastName) || string.IsNullOrWhiteSpace(viewModel.FirstName) ||
-                string.IsNullOrWhiteSpace(viewModel.PhoneNumber) || string.IsNullOrWhiteSpace(viewModel.Email) ||
-                viewModel.HireDate == null || viewModel.SelectedRoleId == 0)
+            // Проверка обязательных полей
+            if (string.IsNullOrWhiteSpace(viewModel.LastName) ||
+                string.IsNullOrWhiteSpace(viewModel.FirstName) ||
+                string.IsNullOrWhiteSpace(viewModel.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(viewModel.Email) ||
+                viewModel.HireDate == null ||
+                viewModel.SelectedRoleId == 0)
             {
-                MessageBox.Show("Заполните все обязательные поля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Заполните все обязательные поля", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!_isEditMode && (string.IsNullOrWhiteSpace(viewModel.Login) || PasswordBox.Password.Length < 6))
+            // Проверка пароля если он введен
+            bool passwordChanged = !string.IsNullOrWhiteSpace(PasswordBox.Password);
+            if (passwordChanged)
             {
-                MessageBox.Show("Логин и пароль (минимум 6 символов) обязательны для нового сотрудника", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+                if (PasswordBox.Password.Length < 6)
+                {
+                    MessageBox.Show("Пароль должен содержать минимум 6 символов", "Ошибка",
+                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            if (!_isEditMode && PasswordBox.Password != ConfirmPasswordBox.Password)
-            {
-                MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (PasswordBox.Password != ConfirmPasswordBox.Password)
+                {
+                    MessageBox.Show("Пароли не совпадают", "Ошибка",
+                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
             }
 
             try
@@ -78,6 +90,7 @@ namespace Retrolink.Admin_pg
                 {
                     if (_isEditMode)
                     {
+                        // Обновление данных сотрудника
                         var employeeToUpdate = db.Employees.FirstOrDefault(emp => emp.EmployeeID == _employee.EmployeeID);
                         if (employeeToUpdate != null)
                         {
@@ -89,13 +102,44 @@ namespace Retrolink.Admin_pg
                             employeeToUpdate.HireDate = viewModel.HireDate.Value;
                             employeeToUpdate.RoleID = viewModel.SelectedRoleId;
                         }
+
+                        // Обновление учетной записи
+                        var account = db.Accounts.FirstOrDefault(a => a.EmployeeID == _employee.EmployeeID);
+                        if (account != null)
+                        {
+                            // Проверка и обновление логина
+                            if (!string.IsNullOrWhiteSpace(viewModel.Login) && account.Login != viewModel.Login)
+                            {
+                                if (db.Accounts.Any(a => a.Login == viewModel.Login && a.EmployeeID != _employee.EmployeeID))
+                                {
+                                    MessageBox.Show("Этот логин уже занят другим пользователем", "Ошибка",
+                                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                                    return;
+                                }
+                                account.Login = viewModel.Login;
+                            }
+
+                            // Обновление пароля если он изменен
+                            if (passwordChanged)
+                            {
+                                account.Password = GetHash(PasswordBox.Password);
+                            }
+                        }
                     }
                     else
                     {
-                      
+                        // Добавление нового сотрудника
+                        if (string.IsNullOrWhiteSpace(viewModel.Login) || PasswordBox.Password.Length < 6)
+                        {
+                            MessageBox.Show("Для нового сотрудника необходимо указать логин и пароль (минимум 6 символов)",
+                                          "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
                         if (db.Accounts.Any(a => a.Login == viewModel.Login))
                         {
-                            MessageBox.Show("Этот логин уже занят", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show("Этот логин уже занят", "Ошибка",
+                                          MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
 
@@ -110,7 +154,7 @@ namespace Retrolink.Admin_pg
                         db.Employees.Add(_employee);
                         db.SaveChanges();
 
-                        
+                        // Создание учетной записи
                         var account = new Accounts
                         {
                             Login = viewModel.Login,
@@ -121,12 +165,15 @@ namespace Retrolink.Admin_pg
                     }
 
                     db.SaveChanges();
+                    MessageBox.Show("Данные сотрудника успешно сохранены", "Успех",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
                     SaveCompleted?.Invoke();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -136,8 +183,10 @@ namespace Retrolink.Admin_pg
         }
     }
 
-    public class AddEditEmployeeViewModel
+    public class AddEditEmployeeViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public string WindowTitle { get; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -147,7 +196,7 @@ namespace Retrolink.Admin_pg
         public DateTime? HireDate { get; set; }
         public string Login { get; set; }
         public System.Collections.Generic.List<Roles> Roles { get; }
-        public int? SelectedRoleId { get; set; }
+        public int SelectedRoleId { get; set; }
 
         public AddEditEmployeeViewModel(Employees employee)
         {
@@ -165,7 +214,7 @@ namespace Retrolink.Admin_pg
                 PhoneNumber = employee.PhoneNumber;
                 Email = employee.Email;
                 HireDate = employee.HireDate;
-                SelectedRoleId = employee.RoleID;
+                SelectedRoleId = employee.RoleID ?? 0;
 
                 using (var db = new Entities())
                 {
@@ -181,6 +230,11 @@ namespace Retrolink.Admin_pg
                 WindowTitle = "Добавление сотрудника";
                 HireDate = DateTime.Now;
             }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
