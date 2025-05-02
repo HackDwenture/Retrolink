@@ -33,11 +33,6 @@ namespace Retrolink.Admin_pg
             return TariffsListView.SelectedItem as Tariffs;
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddTariffRequested?.Invoke();
-        }
-
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedTariff = GetSelectedTariff();

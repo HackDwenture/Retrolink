@@ -1,23 +1,22 @@
-﻿<Page x:Class="Retrolink.Admin_pg.TariffsListPage"
+﻿<Page x:Class="Retrolink.Admin_pg.ServicesListPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
-      Title="Список тарифов">
+      Title="Список услуг">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Специфичные стили для тарифов -->
-            <Style x:Key="TariffsListViewStyle" TargetType="ListView" BasedOn="{StaticResource EmployeesListViewStyle}">
+            <Style x:Key="ServicesListViewStyle" TargetType="ListView" BasedOn="{StaticResource EmployeesListViewStyle}">
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="#DDD"/>
             </Style>
 
-            <Style x:Key="TariffListItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource EmployeeListItemStyle}">
+            <Style x:Key="ServiceListItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource EmployeeListItemStyle}">
                 <Setter Property="Padding" Value="5"/>
             </Style>
         </ResourceDictionary>
@@ -30,33 +29,34 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Список тарифов" Style="{StaticResource PageHeaderStyle}"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Список услуг" Style="{StaticResource PageHeaderStyle}"/>
+        </StackPanel>
 
-        <ListView x:Name="TariffsListView" Grid.Row="1"
-                 Style="{StaticResource TariffsListViewStyle}"
-                 ItemContainerStyle="{StaticResource TariffListItemStyle}"
+        <ListView x:Name="ServicesListView" Grid.Row="1"
+                 Style="{StaticResource ServicesListViewStyle}"
+                 ItemContainerStyle="{StaticResource ServiceListItemStyle}"
                  SelectionMode="Single"
-                 MouseDoubleClick="TariffsListView_MouseDoubleClick">
+                 MouseDoubleClick="ServicesListView_MouseDoubleClick">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
-                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding TariffID}"/>
-                    <GridViewColumn Header="Название" Width="150" DisplayMemberBinding="{Binding TariffName}"/>
-                    <GridViewColumn Header="Скорость" Width="100" DisplayMemberBinding="{Binding Speed}"/>
+                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding ServiceID}"/>
+                    <GridViewColumn Header="Название" Width="200" DisplayMemberBinding="{Binding ServiceName}"/>
                     <GridViewColumn Header="Цена" Width="100">
                         <GridViewColumn.DisplayMemberBinding>
                             <Binding Path="Price" StringFormat="{}{0:N2} ₽"/>
                         </GridViewColumn.DisplayMemberBinding>
                     </GridViewColumn>
-                    <GridViewColumn Header="Описание" Width="250" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="Описание" Width="300" DisplayMemberBinding="{Binding Description}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="Редактировать" Style="{StaticResource CustomButtonStyle}" 
-                    Click="EditButton_Click" Margin="0,0,10,0"/>
+                    Click="EditService_Click" Margin="0,0,10,0"/>
             <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
-                    Click="DeleteButton_Click"/>
+                    Click="DeleteService_Click"/>
         </StackPanel>
     </Grid>
 </Page>

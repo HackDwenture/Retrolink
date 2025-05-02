@@ -22,6 +22,8 @@ namespace Retrolink
         private void ShowAddEmployee_Click(object sender, RoutedEventArgs e) => ShowAddEditEmployee(null);
         private void ShowRolesList_Click(object sender, RoutedEventArgs e) => ShowRolesList();
         private void ShowAddRole_Click(object sender, RoutedEventArgs e) => ShowAddEditRole(null);
+        private void ShowServicesList_Click(object sender, RoutedEventArgs e) => ShowServicesList();
+        private void ShowAddService_Click(object sender, RoutedEventArgs e) => ShowAddEditService(null);
 
         private void ShowEmployeesList()
         {
@@ -179,6 +181,55 @@ namespace Retrolink
             }
         }
 
+        // Добавить методы
+        private void ShowServicesList()
+        {
+            var page = new Admin_pg.ServicesListPage();
+            page.EditServiceRequested += (service) => ShowAddEditService(service);
+            page.DeleteServiceRequested += (service) => DeleteService(service);
+            MainFrame.Navigate(page);
+        }
+
+        private void ShowAddEditService(Services service)
+        {
+            var page = new Admin_pg.AddEditServicePage(service);
+            page.SaveCompleted += () => ShowServicesList();
+            page.CancelClicked += () => ShowServicesList();
+            MainFrame.Navigate(page);
+        }
+
+        private void DeleteService(Services service)
+        {
+            try
+            {
+                using (var db = new Entities())
+                {
+                    // Проверяем, есть ли предоставленные услуги с этой услугой
+                    var providedServices = db.ProvidedServices.Any(ps => ps.ServiceID == service.ServiceID);
+                    if (providedServices)
+                    {
+                        MessageBox.Show("Невозможно удалить услугу, так как она уже была предоставлена клиентам", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (MessageBox.Show($"Вы уверены, что хотите удалить услугу {service.ServiceName}?",
+                        "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        var serviceToDelete = db.Services.FirstOrDefault(s => s.ServiceID == service.ServiceID);
+                        if (serviceToDelete != null)
+                        {
+                            db.Services.Remove(serviceToDelete);
+                            db.SaveChanges();
+                            ShowServicesList();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении услуги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             var loginWindow = new LoginWindow();

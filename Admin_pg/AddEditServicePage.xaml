@@ -1,0 +1,48 @@
+﻿<Page x:Class="Retrolink.Admin_pg.AddEditServicePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="AddEditServicePage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding WindowTitle}" Style="{StaticResource PageHeaderStyle}"/>
+
+            <StackPanel Grid.Row="1">
+                <GroupBox Header="Информация об услуге" Style="{StaticResource FormGroupStyle}">
+                    <StackPanel>
+                        <Label Content="Название услуги:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding ServiceName}"/>
+
+                        <Label Content="Описание:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding Description}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
+
+                        <Label Content="Цена:" Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding Price}"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Сохранить" Style="{StaticResource CustomButtonStyle}" 
+                        Width="100" Margin="0,0,10,0" Click="SaveButton_Click"/>
+                <Button Content="Отмена" Style="{StaticResource CustomButtonStyle}" 
+                        Width="100" Click="CancelButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

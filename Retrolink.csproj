@@ -111,6 +111,9 @@
     <Compile Include="Admin_pg\AddEditRolePage.xaml.cs">
       <DependentUpon>AddEditRolePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin_pg\AddEditServicePage.xaml.cs">
+      <DependentUpon>AddEditServicePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin_pg\AddEditTariffPage.xaml.cs">
       <DependentUpon>AddEditTariffPage.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,9 @@
     </Compile>
     <Compile Include="Admin_pg\RolesListPage.xaml.cs">
       <DependentUpon>RolesListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_pg\ServicesListPage.xaml.cs">
+      <DependentUpon>ServicesListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admin_pg\TariffsListPage.xaml.cs">
       <DependentUpon>TariffsListPage.xaml</DependentUpon>
@@ -199,6 +205,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Admin_pg\AddEditServicePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Admin_pg\AddEditTariffPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin_pg\RolesListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_pg\ServicesListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,6 +323,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="logo.jpg" />
     <Content Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model.Context.cs</LastGenOutput>

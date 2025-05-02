@@ -41,9 +41,17 @@
         Click="ShowTariffsList_Click"/>
                 <Button Content="Добавить тариф" Style="{StaticResource MenuButtonStyle}" 
         Click="ShowAddTariff_Click"/>
+                <!-- После раздела с ролями -->
+                <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+                <Button Content="Список услуг" Style="{StaticResource MenuButtonStyle}" 
+        Click="ShowServicesList_Click"/>
+                <Button Content="Добавить услугу" Style="{StaticResource MenuButtonStyle}" 
+        Click="ShowAddService_Click"/>
+                
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Выход" Style="{StaticResource MenuButtonStyle}" Margin="0,50,0,0"
                         Click="LogoutButton_Click"/>
+                
             </StackPanel>
         </Border>
 
