@@ -51,8 +51,6 @@ namespace Retrolink.Admin_pg
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = (AddEditEmployeeViewModel)DataContext;
-
-            // Проверка обязательных полей
             if (string.IsNullOrWhiteSpace(viewModel.LastName) ||
                 string.IsNullOrWhiteSpace(viewModel.FirstName) ||
                 string.IsNullOrWhiteSpace(viewModel.PhoneNumber) ||
@@ -65,7 +63,6 @@ namespace Retrolink.Admin_pg
                 return;
             }
 
-            // Проверка пароля если он введен
             bool passwordChanged = !string.IsNullOrWhiteSpace(PasswordBox.Password);
             if (passwordChanged)
             {
@@ -90,7 +87,6 @@ namespace Retrolink.Admin_pg
                 {
                     if (_isEditMode)
                     {
-                        // Обновление данных сотрудника
                         var employeeToUpdate = db.Employees.FirstOrDefault(emp => emp.EmployeeID == _employee.EmployeeID);
                         if (employeeToUpdate != null)
                         {
@@ -103,11 +99,9 @@ namespace Retrolink.Admin_pg
                             employeeToUpdate.RoleID = viewModel.SelectedRoleId;
                         }
 
-                        // Обновление учетной записи
                         var account = db.Accounts.FirstOrDefault(a => a.EmployeeID == _employee.EmployeeID);
                         if (account != null)
                         {
-                            // Проверка и обновление логина
                             if (!string.IsNullOrWhiteSpace(viewModel.Login) && account.Login != viewModel.Login)
                             {
                                 if (db.Accounts.Any(a => a.Login == viewModel.Login && a.EmployeeID != _employee.EmployeeID))
@@ -119,7 +113,6 @@ namespace Retrolink.Admin_pg
                                 account.Login = viewModel.Login;
                             }
 
-                            // Обновление пароля если он изменен
                             if (passwordChanged)
                             {
                                 account.Password = GetHash(PasswordBox.Password);
@@ -128,7 +121,6 @@ namespace Retrolink.Admin_pg
                     }
                     else
                     {
-                        // Добавление нового сотрудника
                         if (string.IsNullOrWhiteSpace(viewModel.Login) || PasswordBox.Password.Length < 6)
                         {
                             MessageBox.Show("Для нового сотрудника необходимо указать логин и пароль (минимум 6 символов)",
@@ -154,7 +146,6 @@ namespace Retrolink.Admin_pg
                         db.Employees.Add(_employee);
                         db.SaveChanges();
 
-                        // Создание учетной записи
                         var account = new Accounts
                         {
                             Login = viewModel.Login,

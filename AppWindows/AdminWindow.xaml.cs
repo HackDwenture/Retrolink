@@ -56,7 +56,6 @@ namespace Retrolink
             page.CancelClicked += () => ShowRolesList();
             MainFrame.Navigate(page);
         }
-        // Добавляем методы для работы с тарифами
         private void ShowTariffsList_Click(object sender, RoutedEventArgs e)
         {
             ShowTariffsList();
@@ -92,7 +91,6 @@ namespace Retrolink
                 {
                     using (var db = new Entities())
                     {
-                        // Проверяем, есть ли контракты с этим тарифом
                         var contractsWithTariff = db.Contracts.Any(c => c.TariffID == tariff.TariffID);
                         if (contractsWithTariff)
                         {
@@ -154,7 +152,6 @@ namespace Retrolink
             {
                 using (var db = new Entities())
                 {
-                    // Проверяем, есть ли сотрудники с этой ролью
                     var employeesWithRole = db.Employees.Any(emp => emp.RoleID == role.RoleID);
                     if (employeesWithRole)
                     {
@@ -181,7 +178,6 @@ namespace Retrolink
             }
         }
 
-        // Добавить методы
         private void ShowServicesList()
         {
             var page = new Admin_pg.ServicesListPage();
@@ -204,7 +200,6 @@ namespace Retrolink
             {
                 using (var db = new Entities())
                 {
-                    // Проверяем, есть ли предоставленные услуги с этой услугой
                     var providedServices = db.ProvidedServices.Any(ps => ps.ServiceID == service.ServiceID);
                     if (providedServices)
                     {

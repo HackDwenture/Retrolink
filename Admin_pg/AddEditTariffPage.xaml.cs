@@ -36,7 +36,7 @@ namespace Retrolink.Admin_pg
             var viewModel = (AddEditTariffViewModel)DataContext;
 
             if (string.IsNullOrWhiteSpace(viewModel.TariffName) ||
-                string.IsNullOrWhiteSpace(viewModel.Speed) || // Speed теперь string
+                string.IsNullOrWhiteSpace(viewModel.Speed) || 
                 !decimal.TryParse(viewModel.Price, out decimal price))
             {
                 MessageBox.Show("Пожалуйста, заполните все поля корректно", "Ошибка",
@@ -54,7 +54,7 @@ namespace Retrolink.Admin_pg
                         if (tariffToUpdate != null)
                         {
                             tariffToUpdate.TariffName = viewModel.TariffName;
-                            tariffToUpdate.Speed = viewModel.Speed; // Сохраняем как строку
+                            tariffToUpdate.Speed = viewModel.Speed; 
                             tariffToUpdate.Price = price;
                             tariffToUpdate.Description = viewModel.Description;
                         }
@@ -62,7 +62,7 @@ namespace Retrolink.Admin_pg
                     else
                     {
                         _tariff.TariffName = viewModel.TariffName;
-                        _tariff.Speed = viewModel.Speed; // Сохраняем как строку
+                        _tariff.Speed = viewModel.Speed; 
                         _tariff.Price = price;
                         _tariff.Description = viewModel.Description;
 
@@ -107,8 +107,8 @@ namespace Retrolink.Admin_pg
             else
             {
                 WindowTitle = "Добавление тарифа";
-                Speed = "100"; // Значение по умолчанию
-                Price = "500.00"; // Значение по умолчанию
+                Speed = "100"; 
+                Price = "500.00"; 
             }
         }
     }

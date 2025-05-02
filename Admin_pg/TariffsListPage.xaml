@@ -10,8 +10,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Специфичные стили для тарифов -->
             <Style x:Key="TariffsListViewStyle" TargetType="ListView" BasedOn="{StaticResource EmployeesListViewStyle}">
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="#DDD"/>

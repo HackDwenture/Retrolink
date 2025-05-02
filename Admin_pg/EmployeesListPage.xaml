@@ -3,8 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:Retrolink.Admin_pg"
       mc:Ignorable="d"
       Title="Список сотрудников">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,39 +15,64 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="10">
+    <Grid Margin="15">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Список сотрудников" Style="{StaticResource PageHeaderStyle}"/>
-        <ListView x:Name="EmployeesListView" Grid.Row="1"
-                 Style="{StaticResource EmployeesListViewStyle}"
+
+        <GroupBox Grid.Row="1" Header="Фильтры и сортировка" Style="{StaticResource FormGroupStyle}" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,20,0" Width="200">
+                    <Label Content="Поиск:" Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,20,0" Width="200">
+                    <Label Content="Сортировка:" Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="SortComboBox" SelectionChanged="SortComboBox_SelectionChanged">
+                        <ComboBoxItem Content="По фамилии (А-Я)"/>
+                        <ComboBoxItem Content="По фамилии (Я-А)"/>
+                        <ComboBoxItem Content="По дате приема (новые)"/>
+                        <ComboBoxItem Content="По дате приема (старые)"/>
+                        <ComboBoxItem Content="По должности"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,20,0" Width="200">
+                    <Label Content="Должность:" Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="RoleFilterComboBox" DisplayMemberPath="RoleName"
+                              SelectionChanged="RoleFilterComboBox_SelectionChanged"/>
+                </StackPanel>
+                <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" Height="35" Click="ResetFilters_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+        <ListView Grid.Row="2" x:Name="EmployeesListView" Style="{StaticResource EmployeesListViewStyle}"
                  ItemContainerStyle="{StaticResource EmployeeListItemStyle}"
-                 SelectionMode="Single"
-                 MouseDoubleClick="EmployeesListView_MouseDoubleClick">
+                 SelectionMode="Single" MouseDoubleClick="EmployeesListView_MouseDoubleClick">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
-                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding EmployeeID}"/>
-                    <GridViewColumn Header="Фамилия" Width="120" DisplayMemberBinding="{Binding LastName}"/>
-                    <GridViewColumn Header="Имя" Width="120" DisplayMemberBinding="{Binding FirstName}"/>
-                    <GridViewColumn Header="Отчество" Width="120" DisplayMemberBinding="{Binding Patronymic}"/>
-                    <GridViewColumn Header="Телефон" Width="120" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                    <GridViewColumn Header="Email" Width="180" DisplayMemberBinding="{Binding Email}"/>
-                    <GridViewColumn Header="Дата приема" Width="100" 
-                                  DisplayMemberBinding="{Binding HireDate, StringFormat=dd.MM.yyyy}"/>
-                    <GridViewColumn Header="Должность" Width="150" DisplayMemberBinding="{Binding Roles.RoleName}"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding LastName}" Width="120"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding FirstName}" Width="120"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}" Width="120"/>
+                    <GridViewColumn Header="Должность" DisplayMemberBinding="{Binding Roles.RoleName}" Width="150"/>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding PhoneNumber}" Width="120"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                    <GridViewColumn Header="Дата приема" DisplayMemberBinding="{Binding HireDate, StringFormat={}{0:dd.MM.yyyy}}" Width="120"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="Редактировать" Style="{StaticResource CustomButtonStyle}" 
-                    Click="EditButton_Click" Margin="0,0,10,0"/>
+                    Click="EditEmployee_Click" Margin="0,0,10,0"/>
             <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
-                    Click="DeleteButton_Click"/>
+                    Click="DeleteEmployee_Click"/>
         </StackPanel>
     </Grid>
 </Page>

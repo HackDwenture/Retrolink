@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Retrolink"
         mc:Ignorable="d"
         Title="AdminWindow" Height="700" Width="1200" MinHeight="600" MinWidth="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Icon="/logo.jpg">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,13 +35,11 @@
                         Click="ShowRolesList_Click"/>
                 <Button Content="Добавить роль" Style="{StaticResource MenuButtonStyle}" 
                         Click="ShowAddRole_Click"/>
-                <!-- Добавляем в StackPanel меню после кнопок для ролей -->
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Список тарифов" Style="{StaticResource MenuButtonStyle}" 
         Click="ShowTariffsList_Click"/>
                 <Button Content="Добавить тариф" Style="{StaticResource MenuButtonStyle}" 
         Click="ShowAddTariff_Click"/>
-                <!-- После раздела с ролями -->
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Список услуг" Style="{StaticResource MenuButtonStyle}" 
         Click="ShowServicesList_Click"/>
