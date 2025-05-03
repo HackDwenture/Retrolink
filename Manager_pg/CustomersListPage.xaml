@@ -4,62 +4,81 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
-      Title="CustomersListPage">
+      Title="Список клиентов">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CustomersListViewStyle" TargetType="ListView" BasedOn="{StaticResource EmployeesListViewStyle}">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#DDD"/>
+            </Style>
+
+            <Style x:Key="CustomerListItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource EmployeeListItemStyle}">
+                <Setter Property="Padding" Value="5"/>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Список клиентов" Style="{StaticResource PageHeaderStyle}"/>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBox x:Name="SearchTextBox" Width="300" Margin="0,0,10,0" 
-                     TextChanged="SearchTextBox_TextChanged" Tag="Поиск..."/>
-            <ComboBox x:Name="FilterComboBox" Width="150" SelectedIndex="0"
-                      SelectionChanged="FilterComboBox_SelectionChanged">
-                <ComboBoxItem Content="Все"/>
-                <ComboBoxItem Content="Фамилия"/>
-                <ComboBoxItem Content="Телефон"/>
-                <ComboBoxItem Content="Email"/>
-            </ComboBox>
-        </StackPanel>
+        <GroupBox Grid.Row="1" Header="Фильтры" Style="{StaticResource FormGroupStyle}" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,20,0" Width="300">
+                    <Label Content="Поиск:" Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"/>
+                </StackPanel>
 
-        <DataGrid Grid.Row="2" x:Name="CustomersDataGrid" Style="{StaticResource DataGridStyle}"
-                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" Width="*"/>
-                <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="*"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
-                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*"/>
-                <DataGridTemplateColumn Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Подробнее" Style="{StaticResource CustomButtonStyle}" 
-                                        Padding="5" Margin="0,0,5,0" FontSize="12"
-                                        Click="ViewDetails_Click"/>
-                                <Button Content="Изменить" Style="{StaticResource CustomButtonStyle}" 
-                                        Padding="5" Margin="0,0,5,0" FontSize="12"
-                                        Click="Edit_Click"/>
-                                <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
-                                        Padding="5" FontSize="12"
-                                        Click="Delete_Click"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                <StackPanel Margin="0,0,20,0" Width="200">
+                    <Label Content="Тип поиска:" Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="FilterComboBox" SelectedIndex="0"
+                              SelectionChanged="FilterComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Все поля"/>
+                        <ComboBoxItem Content="Фамилия"/>
+                        <ComboBoxItem Content="Телефон"/>
+                        <ComboBoxItem Content="Email"/>
+                    </ComboBox>
+                </StackPanel>
+                <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" Height="35" Click="ResetFilters_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+        <ListView Grid.Row="2" x:Name="CustomersListView" 
+                 Style="{StaticResource CustomersListViewStyle}"
+                 ItemContainerStyle="{StaticResource CustomerListItemStyle}"
+                 SelectionMode="Single"
+                 MouseDoubleClick="CustomersListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding LastName}" Width="120"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding FirstName}" Width="120"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}" Width="120"/>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding PhoneNumber}" Width="120"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                    <GridViewColumn Header="Дата регистрации" 
+                                  DisplayMemberBinding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" 
+                                  Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Подробнее" Style="{StaticResource CustomButtonStyle}" 
+                    Click="ViewDetails_Click" Margin="0,0,10,0"/>
+            <Button Content="Редактировать" Style="{StaticResource CustomButtonStyle}" 
+                    Click="Edit_Click" Margin="0,0,10,0"/>
+            <Button Content="Удалить" Style="{StaticResource CustomButtonStyle}" 
+                    Click="Delete_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
