@@ -58,7 +58,6 @@ namespace Retrolink.Engineer_pg
         public string CustomerAddress { get; }
         public DateTime ServiceDate { get; }
         public int ContractID { get; }
-        public string Status { get; } = "Выполнено";
 
         public ServiceDetailsViewModel(ProvidedServices service)
         {

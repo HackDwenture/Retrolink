@@ -212,6 +212,12 @@
     <Compile Include="AppWindows\SupportWindow.xaml.cs">
       <DependentUpon>SupportWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Support_pg\TicketDetailsPage.xaml.cs">
+      <DependentUpon>TicketDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Support_pg\TicketsListPage.xaml.cs">
+      <DependentUpon>TicketsListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tariffs.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -316,6 +322,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AppWindows\SupportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Support_pg\TicketDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Support_pg\TicketsListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
