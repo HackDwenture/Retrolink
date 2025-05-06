@@ -23,10 +23,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding CustomerName}" Style="{StaticResource PageHeaderStyle}"/>
-                <Button Content="Назад" Style="{StaticResource CustomButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="10,0,0,0" Click="BackButton_Click"/>
             </StackPanel>
 
             <GroupBox Grid.Row="1" Header="Информация о клиенте" Style="{StaticResource FormGroupStyle}">
