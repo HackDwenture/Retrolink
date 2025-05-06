@@ -1,0 +1,53 @@
+﻿<Page x:Class="Retrolink.Engineer_pg.MyServicesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Мои заявки">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Мои заявки" Style="{StaticResource PageHeaderStyle}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <DatePicker x:Name="DateFromPicker" Width="120" Margin="0,0,10,0"/>
+            <DatePicker x:Name="DateToPicker" Width="120" Margin="0,0,10,0"/>
+            <Button Content="Фильтровать" Style="{StaticResource CustomButtonStyle}" 
+                    Click="FilterServices_Click"/>
+            <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" 
+                    Margin="10,0,0,0" Click="ResetFilters_Click"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="2" x:Name="ServicesDataGrid" Style="{StaticResource DataGridStyle}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Binding="{Binding ProvideDate, StringFormat='dd.MM.yyyy'}" Width="120"/>
+                <DataGridTextColumn Header="Контракт" Binding="{Binding ContractID}" Width="100"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Contracts.Customers.FullName}" Width="200"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Contracts.Customers.PhoneNumber}" Width="120"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Contracts.Customers.Email}" Width="200"/>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Подробнее" Style="{StaticResource CustomButtonStyle}" 
+                                    Padding="5" FontSize="12" Click="ViewDetails_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

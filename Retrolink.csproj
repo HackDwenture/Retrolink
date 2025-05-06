@@ -144,6 +144,24 @@
     <Compile Include="AppWindows\EngineerWindow.xaml.cs">
       <DependentUpon>EngineerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Engineer_pg\AddEditEquipmentPage.xaml.cs">
+      <DependentUpon>AddEditEquipmentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engineer_pg\AddEditInstalledEquipmentPage.xaml.cs">
+      <DependentUpon>AddEditInstalledEquipmentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engineer_pg\EquipmentListPage.xaml.cs">
+      <DependentUpon>EquipmentListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engineer_pg\InstalledEquipmentListPage.xaml.cs">
+      <DependentUpon>InstalledEquipmentListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engineer_pg\MyServicesPage.xaml.cs">
+      <DependentUpon>MyServicesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engineer_pg\ServiceDetailsPage.xaml.cs">
+      <DependentUpon>ServiceDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Equipment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -194,6 +212,12 @@
     <Compile Include="AppWindows\SupportWindow.xaml.cs">
       <DependentUpon>SupportWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Support_pg\TicketDetailsPage.xaml.cs">
+      <DependentUpon>TicketDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Support_pg\TicketsListPage.xaml.cs">
+      <DependentUpon>TicketsListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tariffs.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -237,6 +261,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Engineer_pg\AddEditEquipmentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Engineer_pg\AddEditInstalledEquipmentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Engineer_pg\EquipmentListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Engineer_pg\InstalledEquipmentListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Engineer_pg\MyServicesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Engineer_pg\ServiceDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,6 +322,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AppWindows\SupportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Support_pg\TicketDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Support_pg\TicketsListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
