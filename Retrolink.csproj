@@ -132,6 +132,9 @@
     <Compile Include="AppWindows\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppWindows\EngineerWindow.xaml.cs">
+      <DependentUpon>EngineerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Contracts.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -140,9 +143,6 @@
     </Compile>
     <Compile Include="Employees.cs">
       <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AppWindows\EngineerWindow.xaml.cs">
-      <DependentUpon>EngineerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Engineer_pg\AddEditEquipmentPage.xaml.cs">
       <DependentUpon>AddEditEquipmentPage.xaml</DependentUpon>
@@ -180,6 +180,9 @@
     <Compile Include="Manager_pg\AddEditCustomerPage.xaml.cs">
       <DependentUpon>AddEditCustomerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manager_pg\AddEditProvidedServicePage.xaml.cs">
+      <DependentUpon>AddEditProvidedServicePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Manager_pg\CustomerDetailsPage.xaml.cs">
       <DependentUpon>CustomerDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -193,6 +196,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppWindows\SupportWindow.xaml.cs">
+      <DependentUpon>SupportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Payments.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -208,9 +214,6 @@
     </Compile>
     <Compile Include="SupportTickets.cs">
       <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AppWindows\SupportWindow.xaml.cs">
-      <DependentUpon>SupportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Support_pg\TicketDetailsPage.xaml.cs">
       <DependentUpon>TicketDetailsPage.xaml</DependentUpon>
@@ -302,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Manager_pg\AddEditCustomerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manager_pg\AddEditProvidedServicePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

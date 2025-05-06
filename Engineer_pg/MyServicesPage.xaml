@@ -5,6 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       Title="Мои заявки">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,41 +14,58 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="10">
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Мои заявки" Style="{StaticResource PageHeaderStyle}"/>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <DatePicker x:Name="DateFromPicker" Width="120" Margin="0,0,10,0"/>
-            <DatePicker x:Name="DateToPicker" Width="120" Margin="0,0,10,0"/>
-            <Button Content="Фильтровать" Style="{StaticResource CustomButtonStyle}" 
-                    Click="FilterServices_Click"/>
-            <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" 
-                    Margin="10,0,0,0" Click="ResetFilters_Click"/>
-        </StackPanel>
+        <GroupBox Grid.Row="1" Header="Фильтры и поиск" Style="{StaticResource FormGroupStyle}" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,20,0" Width="300">
+                    <Label Content="Период:" Style="{StaticResource FormLabelStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <DatePicker x:Name="DateFromPicker" Width="120" Margin="0,0,10,0"/>
+                        <DatePicker x:Name="DateToPicker" Width="120"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Content="Фильтровать" Style="{StaticResource CustomButtonStyle}" 
+                        Click="FilterServices_Click" Height="35" Margin="0,0,10,0"/>
+                <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" 
+                        Click="ResetFilters_Click" Height="35"/>
+            </StackPanel>
+        </GroupBox>
 
-        <DataGrid Grid.Row="2" x:Name="ServicesDataGrid" Style="{StaticResource DataGridStyle}"
-                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата" Binding="{Binding ProvideDate, StringFormat='dd.MM.yyyy'}" Width="120"/>
-                <DataGridTextColumn Header="Контракт" Binding="{Binding ContractID}" Width="100"/>
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Contracts.Customers.FullName}" Width="200"/>
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Contracts.Customers.PhoneNumber}" Width="120"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Contracts.Customers.Email}" Width="200"/>
-                <DataGridTemplateColumn Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Подробнее" Style="{StaticResource CustomButtonStyle}" 
-                                    Padding="5" FontSize="12" Click="ViewDetails_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListView Grid.Row="2" x:Name="ServicesListView" Style="{StaticResource EmployeesListViewStyle}"
+                 ItemContainerStyle="{StaticResource EmployeeListItemStyle}"
+                 SelectionMode="Single" MouseDoubleClick="ServicesListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding ProvideDate, StringFormat='dd.MM.yyyy'}" Width="120"/>
+                    <GridViewColumn Header="Контракт" DisplayMemberBinding="{Binding ContractID}" Width="100"/>
+                    <GridViewColumn Header="Клиент" Width="200">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                <Binding Path="Contracts.Customers.LastName"/>
+                                <Binding Path="Contracts.Customers.FirstName"/>
+                                <Binding Path="Contracts.Customers.Patronymic"/>
+                            </MultiBinding>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Contracts.Customers.PhoneNumber}" Width="120"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Contracts.Customers.Email}" Width="200"/>
+                    <GridViewColumn Header="Услуга" DisplayMemberBinding="{Binding Services.ServiceName}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Подробнее" Style="{StaticResource CustomButtonStyle}" 
+                    Click="ViewDetails_Click" Margin="0,0,10,0"/>
+        </StackPanel>
     </Grid>
 </Page>

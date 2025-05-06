@@ -29,9 +29,9 @@ namespace Retrolink.Engineer_pg
             {
                 using (var db = new Entities())
                 {
-                    // Загружаем оборудование с включением связанных данных
+                   
                     _allInstalledEquipment = db.InstalledEquipment
-                        .Include("Equipment")  // Используем строку для навигационного свойства
+                        .Include("Equipment")  
                         .ToList();
                 }
             }
@@ -47,7 +47,6 @@ namespace Retrolink.Engineer_pg
             _installedEquipmentView = CollectionViewSource.GetDefaultView(_allInstalledEquipment);
             _installedEquipmentView.Filter = InstalledEquipmentFilter;
 
-            // Убедитесь, что имя совпадает с XAML
             InstalledEquipmentListView.ItemsSource = _installedEquipmentView;
         }
 
@@ -59,7 +58,6 @@ namespace Retrolink.Engineer_pg
             string searchText = SearchTextBox?.Text?.ToLower() ?? string.Empty;
             if (string.IsNullOrEmpty(searchText)) return true;
 
-            // Используем правильные имена полей из модели
             return (installed.Equipment?.EquipmentName?.ToLower().Contains(searchText) ?? false) ||
                    (installed.ContractID.ToString().Contains(searchText)) ||
                    (installed.InstallationDate.ToString("dd.MM.yyyy").Contains(searchText));

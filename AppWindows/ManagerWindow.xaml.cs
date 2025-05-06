@@ -45,12 +45,23 @@ namespace Retrolink
             page.EditContractRequested += (contract) => ShowAddEditContract(contract, customer);
             page.AddContractRequested += () => ShowAddEditContract(null, customer);
             page.DeleteContractRequested += (contract) => DeleteContract(contract);
+            page.AddProvidedServiceRequested += (service) => ShowAddEditProvidedService(service, customer);
+            page.EditProvidedServiceRequested += (service) => ShowAddEditProvidedService(service, customer);
+            page.DeleteProvidedServiceRequested += (service) => DeleteProvidedService(service, customer);
             MainFrame.Navigate(page);
         }
 
         private void ShowAddEditContract(Contracts contract, Customers customer)
         {
             var page = new Manager_pg.AddEditContractPage(contract, customer);
+            page.SaveCompleted += () => ShowCustomerDetails(customer);
+            page.CancelClicked += () => ShowCustomerDetails(customer);
+            MainFrame.Navigate(page);
+        }
+
+        private void ShowAddEditProvidedService(ProvidedServices service, Customers customer)
+        {
+            var page = new Manager_pg.AddEditProvidedServicePage(service, customer);
             page.SaveCompleted += () => ShowCustomerDetails(customer);
             page.CancelClicked += () => ShowCustomerDetails(customer);
             MainFrame.Navigate(page);
@@ -74,7 +85,6 @@ namespace Retrolink
                         var customerToDelete = db.Customers.FirstOrDefault(c => c.CustomerID == customer.CustomerID);
                         if (customerToDelete != null)
                         {
-                            // Удаляем связанные контракты и оборудование
                             var contracts = db.Contracts.Where(c => c.CustomerID == customerToDelete.CustomerID).ToList();
                             foreach (var contract in contracts)
                             {
@@ -87,15 +97,12 @@ namespace Retrolink
                                 db.Contracts.Remove(contract);
                             }
 
-                            // Удаляем платежи
                             var payments = db.Payments.Where(p => p.CustomerID == customerToDelete.CustomerID).ToList();
                             db.Payments.RemoveRange(payments);
 
-                            // Удаляем тикеты поддержки
                             var supportTickets = db.SupportTickets.Where(st => st.CustomerID == customerToDelete.CustomerID).ToList();
                             db.SupportTickets.RemoveRange(supportTickets);
 
-                            // Удаляем самого клиента
                             db.Customers.Remove(customerToDelete);
                             db.SaveChanges();
                             ShowCustomersList();
@@ -111,34 +118,67 @@ namespace Retrolink
 
         private void DeleteContract(Contracts contract)
         {
-            if (MessageBox.Show($"Вы уверены, что хотите удалить контракт от {contract.ContractDate.ToShortDateString()}?",
-                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить контракт от {contract.ContractDate.ToShortDateString()}?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            try
             {
-                try
+                using (var db = new Entities())
                 {
-                    using (var db = new Entities())
+                    var contractToDelete = db.Contracts.FirstOrDefault(c => c.ContractID == contract.ContractID);
+                    if (contractToDelete != null)
                     {
-                        var contractToDelete = db.Contracts.FirstOrDefault(c => c.ContractID == contract.ContractID);
-                        if (contractToDelete != null)
+                        var installedEquipment = db.InstalledEquipment.Where(ie => ie.ContractID == contractToDelete.ContractID).ToList();
+                        db.InstalledEquipment.RemoveRange(installedEquipment);
+
+                        var providedServices = db.ProvidedServices.Where(ps => ps.ContractID == contractToDelete.ContractID).ToList();
+                        db.ProvidedServices.RemoveRange(providedServices);
+
+                        db.Contracts.Remove(contractToDelete);
+                        db.SaveChanges();
+
+                        if (MainFrame.Content is CustomerDetailsPage detailsPage)
                         {
-                            // Удаляем связанное оборудование
-                            var installedEquipment = db.InstalledEquipment.Where(ie => ie.ContractID == contractToDelete.ContractID).ToList();
-                            db.InstalledEquipment.RemoveRange(installedEquipment);
-
-                            // Удаляем связанные услуги
-                            var providedServices = db.ProvidedServices.Where(ps => ps.ContractID == contractToDelete.ContractID).ToList();
-                            db.ProvidedServices.RemoveRange(providedServices);
-
-                            // Удаляем сам контракт
-                            db.Contracts.Remove(contractToDelete);
-                            db.SaveChanges();
+                            ShowCustomerDetails(detailsPage.CurrentCustomer);
                         }
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении контракта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteProvidedService(ProvidedServices service, Customers customer)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите удалить эту предоставленную услугу?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            try
+            {
+                using (var db = new Entities())
                 {
-                    MessageBox.Show($"Ошибка при удалении контракта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var serviceToDelete = db.ProvidedServices.FirstOrDefault(s => s.ProvidedServiceID == service.ProvidedServiceID);
+                    if (serviceToDelete != null)
+                    {
+                        db.ProvidedServices.Remove(serviceToDelete);
+                        db.SaveChanges();
+
+                        if (MainFrame.Content is CustomerDetailsPage detailsPage)
+                        {
+                            ShowCustomerDetails(detailsPage.CurrentCustomer);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении услуги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -41,9 +41,7 @@
                     <Label Content="Дата до:" Style="{StaticResource FormLabelStyle}"/>
                     <DatePicker x:Name="DateToPicker" SelectedDateChanged="DateFilter_Changed"/>
                 </StackPanel>
-
-                <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" Height="35" 
-                        VerticalAlignment="Bottom" Click="ResetFilters_Click"/>
+                <Button Content="Сбросить" Style="{StaticResource CustomButtonStyle}" Height="35" Click="ResetFilters_Click"/>
             </StackPanel>
         </GroupBox>
 

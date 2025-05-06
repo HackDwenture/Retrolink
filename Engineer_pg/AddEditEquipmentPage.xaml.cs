@@ -10,7 +10,7 @@ namespace Retrolink.Engineer_pg
         public event Action SaveCompleted;
         public event Action CancelClicked;
 
-        public string Title => _currentEquipment == null ? "Добавить оборудование" : "Редактировать оборудование";
+        public new string Title => _currentEquipment == null ? "Добавить оборудование" : "Редактировать оборудование";
 
         public AddEditEquipmentPage(Equipment equipment)
         {
@@ -43,7 +43,7 @@ namespace Retrolink.Engineer_pg
             {
                 using (var db = new Entities())
                 {
-                    if (_currentEquipment.EquipmentID == 0) // Новое оборудование
+                    if (_currentEquipment.EquipmentID == 0) 
                     {
                         var newEquipment = new Equipment
                         {
@@ -54,7 +54,7 @@ namespace Retrolink.Engineer_pg
                         };
                         db.Equipment.Add(newEquipment);
                     }
-                    else // Редактирование существующего
+                    else 
                     {
                         var equipmentToUpdate = db.Equipment.Find(_currentEquipment.EquipmentID);
                         if (equipmentToUpdate != null)

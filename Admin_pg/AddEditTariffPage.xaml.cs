@@ -68,8 +68,9 @@ namespace Retrolink.Admin_pg
 
                         db.Tariffs.Add(_tariff);
                     }
-
                     db.SaveChanges();
+                    MessageBox.Show("Тариф успешно добавлен", "Успех",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
                     SaveCompleted?.Invoke();
                 }
             }
@@ -108,7 +109,7 @@ namespace Retrolink.Admin_pg
             {
                 WindowTitle = "Добавление тарифа";
                 Speed = "100"; 
-                Price = "500.00"; 
+                Price = "500"; 
             }
         }
     }

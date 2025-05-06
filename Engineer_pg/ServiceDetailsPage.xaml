@@ -23,14 +23,12 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="Подробности заявки" Style="{StaticResource PageHeaderStyle}"/>
                 <Button Content="Назад" Style="{StaticResource CustomButtonStyle}" 
                         HorizontalAlignment="Right" Margin="10,0,0,0" Click="BackButton_Click"/>
             </StackPanel>
 
-            <!-- Информация о клиенте -->
             <GroupBox Grid.Row="1" Header="Информация о клиенте" Style="{StaticResource FormGroupStyle}">
                 <StackPanel>
                     <Grid>
@@ -60,7 +58,6 @@
                 </StackPanel>
             </GroupBox>
 
-            <!-- Информация о заявке -->
             <GroupBox Grid.Row="2" Header="Информация о заявке" Style="{StaticResource FormGroupStyle}">
                 <StackPanel>
                     <Grid>
@@ -86,7 +83,6 @@
                 </StackPanel>
             </GroupBox>
 
-            <!-- Услуги -->
             <GroupBox Grid.Row="3" Header="Выполненные услуги" Style="{StaticResource FormGroupStyle}">
                 <DataGrid x:Name="ServicesDataGrid" Style="{StaticResource DataGridStyle}"
                           AutoGenerateColumns="False" IsReadOnly="True">

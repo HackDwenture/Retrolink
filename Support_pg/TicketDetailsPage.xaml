@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:local="clr-namespace:Retrolink.Support_pg"
       mc:Ignorable="d"
       Title="Детали заявки">
 
@@ -23,13 +22,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Детали заявки" Style="{StaticResource PageHeaderStyle}"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Детали заявки" Style="{StaticResource PageHeaderStyle}"/>
+            </StackPanel>
 
-            <!-- Информация о заявке -->
             <GroupBox Grid.Row="1" Header="Информация о заявке" Style="{StaticResource FormGroupStyle}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -45,24 +45,23 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Content="ID:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TicketID}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TicketID}" Margin="5"/>
 
                     <Label Grid.Row="0" Grid.Column="2" Content="Дата:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TicketDate, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TicketDate, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Margin="5"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="Статус:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Status}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Status}" Margin="5"/>
 
                     <Label Grid.Row="1" Grid.Column="2" Content="Исполнитель:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Employees.LastName}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Employees.LastName}" Margin="5"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="Описание:" Style="{StaticResource FormLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Description}" 
-                               TextWrapping="Wrap" Margin="0,5,0,5"/>
+                               TextWrapping="Wrap" Margin="5"/>
                 </Grid>
             </GroupBox>
 
-            <!-- Информация о клиенте -->
             <GroupBox Grid.Row="2" Header="Информация о клиенте" Style="{StaticResource FormGroupStyle}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -79,73 +78,70 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Content="ФИО:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Customers.LastName}" Margin="0,5,0,5"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Customers.FirstName}" Margin="10,5,0,5"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Customers.Patronymic}" Margin="10,5,0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Customers.LastName}" Margin="5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Customers.FirstName}" Margin="5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Customers.Patronymic}" Margin="5"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="Телефон:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Customers.PhoneNumber}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Customers.PhoneNumber}" Margin="5"/>
 
                     <Label Grid.Row="1" Grid.Column="2" Content="Email:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Customers.Email}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Customers.Email}" Margin="5"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="Адрес:" Style="{StaticResource FormLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Customers.Address}" 
-                               TextWrapping="Wrap" Margin="0,5,0,5"/>
+                               TextWrapping="Wrap" Margin="5"/>
 
                     <Label Grid.Row="3" Grid.Column="0" Content="Дата регистрации:" Style="{StaticResource FormLabelStyle}"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Customers.RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Margin="0,5,0,5"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Customers.RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Margin="5"/>
                 </Grid>
             </GroupBox>
 
-            <!-- Договоры клиента -->
-            <GroupBox Grid.Row="3" Header="Договоры клиента" Style="{StaticResource FormGroupStyle}">
-                <ListView x:Name="ContractsListView" Style="{StaticResource EmployeesListViewStyle}"
-                         ItemContainerStyle="{StaticResource EmployeeListItemStyle}">
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
-                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ContractID}" Width="50"/>
-                            <GridViewColumn Header="Тариф" DisplayMemberBinding="{Binding Tariffs.TariffName}" Width="150"/>
-                            <GridViewColumn Header="Дата договора" DisplayMemberBinding="{Binding ContractDate, StringFormat={}{0:dd.MM.yyyy}}" Width="120"/>
-                            <GridViewColumn Header="Дата подключения" DisplayMemberBinding="{Binding InstallationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="120"/>
-                            <GridViewColumn Header="Скорость" DisplayMemberBinding="{Binding Tariffs.Speed}" Width="100"/>
-                            <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Tariffs.Price, StringFormat={}{0:C}}" Width="100"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+            <!-- Контракты клиента -->
+            <GroupBox Grid.Row="3" Header="Контракты клиента" Style="{StaticResource FormGroupStyle}">
+                <DataGrid x:Name="ContractsDataGrid" Style="{StaticResource DataGridStyle}"
+                          AutoGenerateColumns="False" IsReadOnly="True" Height="200"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ContractID}" Width="Auto"/>
+                        <DataGridTextColumn Header="Тариф" Binding="{Binding Tariffs.TariffName}" Width="*"/>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding ContractDate, StringFormat='dd.MM.yyyy'}" Width="*"/>
+                        <DataGridTextColumn Header="Подключение" Binding="{Binding InstallationDate, StringFormat='dd.MM.yyyy'}" Width="*"/>
+                        <DataGridTextColumn Header="Скорость" Binding="{Binding Tariffs.Speed}" Width="*"/>
+                        <DataGridTextColumn Header="Цена" Binding="{Binding Tariffs.Price, StringFormat='{}{0:N2} ₽'}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </GroupBox>
 
             <!-- Оборудование клиента -->
             <GroupBox Grid.Row="4" Header="Оборудование клиента" Style="{StaticResource FormGroupStyle}">
-                <ListView x:Name="EquipmentListView" Style="{StaticResource EmployeesListViewStyle}"
-                         ItemContainerStyle="{StaticResource EmployeeListItemStyle}">
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
-                            <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Equipment.EquipmentName}" Width="150"/>
-                            <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Equipment.Model}" Width="150"/>
-                            <GridViewColumn Header="Серийный номер" DisplayMemberBinding="{Binding Equipment.SerialNumber}" Width="150"/>
-                            <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Equipment.Description}" Width="300"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid x:Name="EquipmentDataGrid" Style="{StaticResource DataGridStyle}"
+                          AutoGenerateColumns="False" IsReadOnly="True" Height="200"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Equipment.EquipmentName}" Width="*"/>
+                        <DataGridTextColumn Header="Модель" Binding="{Binding Equipment.Model}" Width="*"/>
+                        <DataGridTextColumn Header="Серийный номер" Binding="{Binding Equipment.SerialNumber}" Width="*"/>
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Equipment.Description}" Width="2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </GroupBox>
 
             <!-- Услуги клиента -->
             <GroupBox Grid.Row="5" Header="Услуги клиента" Style="{StaticResource FormGroupStyle}">
-                <ListView x:Name="ServicesListView" Style="{StaticResource EmployeesListViewStyle}"
-                         ItemContainerStyle="{StaticResource EmployeeListItemStyle}">
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderStyle}">
-                            <GridViewColumn Header="Услуга" DisplayMemberBinding="{Binding Services.ServiceName}" Width="200"/>
-                            <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Services.Description}" Width="300"/>
-                            <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Services.Price, StringFormat={}{0:C}}" Width="100"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid x:Name="ServicesDataGrid" Style="{StaticResource DataGridStyle}"
+                          AutoGenerateColumns="False" IsReadOnly="True" Height="200"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Услуга" Binding="{Binding Services.ServiceName}" Width="*"/>
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Services.Description}" Width="2*"/>
+                        <DataGridTextColumn Header="Цена" Binding="{Binding Services.Price, StringFormat='{}{0:N2} ₽'}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </GroupBox>
 
             <Button Grid.Row="6" Content="Назад" Style="{StaticResource CustomButtonStyle}" 
-                    HorizontalAlignment="Right" Margin="0,10,0,0" Click="BackButton_Click"/>
+                    HorizontalAlignment="Left" Margin="0,10,0,0" Click="BackButton_Click"/>
         </Grid>
     </ScrollViewer>
 </Page>

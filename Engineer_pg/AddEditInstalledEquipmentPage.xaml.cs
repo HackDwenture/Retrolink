@@ -11,7 +11,7 @@ namespace Retrolink.Engineer_pg
         public event Action SaveCompleted;
         public event Action CancelClicked;
 
-        public string Title => _currentInstalled == null ? "Добавить установку оборудования" : "Редактировать установку оборудования";
+        public new string Title => _currentInstalled == null ? "Добавить установку оборудования" : "Редактировать установку оборудования";
 
         public AddEditInstalledEquipmentPage(InstalledEquipment installed)
         {
@@ -27,13 +27,11 @@ namespace Retrolink.Engineer_pg
             {
                 using (var db = new Entities())
                 {
-                    // Загрузка оборудования
                     var equipmentList = db.Equipment.ToList();
                     EquipmentComboBox.ItemsSource = equipmentList;
                     EquipmentComboBox.DisplayMemberPath = "EquipmentName";
                     EquipmentComboBox.SelectedValuePath = "EquipmentID";
 
-                    // Загрузка контрактов
                     var contractList = db.Contracts.ToList();
                     ContractComboBox.ItemsSource = contractList;
                     ContractComboBox.DisplayMemberPath = "ContractID";
@@ -41,14 +39,12 @@ namespace Retrolink.Engineer_pg
 
                     if (_currentInstalled.InstalledEquipmentID != 0)
                     {
-                        // Редактирование существующей записи
                         EquipmentComboBox.SelectedValue = _currentInstalled.EquipmentID;
                         ContractComboBox.SelectedValue = _currentInstalled.ContractID;
                         InstallationDatePicker.SelectedDate = _currentInstalled.InstallationDate;
                     }
                     else
                     {
-                        // Новая запись - установить текущую дату по умолчанию
                         InstallationDatePicker.SelectedDate = DateTime.Today;
                     }
                 }
@@ -86,7 +82,7 @@ namespace Retrolink.Engineer_pg
                     var selectedEquipment = (Equipment)EquipmentComboBox.SelectedItem;
                     var selectedContract = (Contracts)ContractComboBox.SelectedItem;
 
-                    if (_currentInstalled.InstalledEquipmentID == 0) // Новая запись
+                    if (_currentInstalled.InstalledEquipmentID == 0) 
                     {
                         var newInstalled = new InstalledEquipment
                         {
@@ -96,7 +92,7 @@ namespace Retrolink.Engineer_pg
                         };
                         db.InstalledEquipment.Add(newInstalled);
                     }
-                    else // Редактирование существующей
+                    else 
                     {
                         var installedToUpdate = db.InstalledEquipment.Find(_currentInstalled.InstalledEquipmentID);
                         if (installedToUpdate != null)

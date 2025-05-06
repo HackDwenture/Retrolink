@@ -26,26 +26,22 @@ namespace Retrolink.Support_pg
             {
                 using (var db = new Entities())
                 {
-                    // Загрузка договоров клиента
-                    var contracts = db.Contracts
+                    ContractsDataGrid.ItemsSource = db.Contracts
                         .Include(c => c.Tariffs)
                         .Where(c => c.CustomerID == _ticket.CustomerID)
+                        .OrderByDescending(c => c.ContractDate)
                         .ToList();
-                    ContractsListView.ItemsSource = contracts;
 
-                    // Загрузка оборудования клиента
-                    var equipment = db.InstalledEquipment
+                    EquipmentDataGrid.ItemsSource = db.InstalledEquipment
                         .Include(ie => ie.Equipment)
                         .Where(ie => ie.Contracts.CustomerID == _ticket.CustomerID)
                         .ToList();
-                    EquipmentListView.ItemsSource = equipment;
 
-                    // Загрузка услуг клиента
-                    var services = db.ProvidedServices
+                    ServicesDataGrid.ItemsSource = db.ProvidedServices
                         .Include(ps => ps.Services)
                         .Where(ps => ps.Contracts.CustomerID == _ticket.CustomerID)
+                        .OrderByDescending(ps => ps.ProvideDate)
                         .ToList();
-                    ServicesListView.ItemsSource = services;
                 }
             }
             catch (Exception ex)

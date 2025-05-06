@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -26,7 +27,6 @@ namespace Retrolink
         private void ShowAddService_Click(object sender, RoutedEventArgs e) => ShowAddEditService(null);
         private void ShowTariffsList_Click(object sender, RoutedEventArgs e) => ShowTariffsList();
         private void ShowAddTariff_Click(object sender, RoutedEventArgs e) => ShowAddEditTariff(null);
-       
 
         private void ShowEmployeesList()
         {
@@ -59,7 +59,7 @@ namespace Retrolink
             page.CancelClicked += () => ShowRolesList();
             MainFrame.Navigate(page);
         }
-        
+
         private void ShowTariffsList()
         {
             var page = new Admin_pg.TariffsListPage();
@@ -74,6 +74,69 @@ namespace Retrolink
             page.SaveCompleted += () => ShowTariffsList();
             page.CancelClicked += () => ShowTariffsList();
             MainFrame.Navigate(page);
+        }
+
+        private void DeleteEmployee(Employees employee)
+        {
+            if (MessageBox.Show($"Вы уверены, что хотите удалить сотрудника {employee.LastName} {employee.FirstName} и все связанные данные?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    using (var db = new Entities())
+                    {
+                        var employeeToDelete = db.Employees
+                            .Include(e => e.Accounts)
+                            .Include(e => e.ProvidedServices)
+                            .Include(e => e.SupportTickets)
+                            .FirstOrDefault(emp => emp.EmployeeID == employee.EmployeeID);
+
+                        if (employeeToDelete == null)
+                        {
+                            MessageBox.Show("Сотрудник не найден", "Ошибка",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        if (employeeToDelete.Accounts != null && employeeToDelete.Accounts.Any())
+                        {
+                            db.Accounts.RemoveRange(employeeToDelete.Accounts);
+                        }
+
+                        var providedServices = db.ProvidedServices
+                            .Where(ps => ps.EmployeeID == employeeToDelete.EmployeeID)
+                            .ToList();
+
+                        foreach (var service in providedServices)
+                        {
+                            db.ProvidedServices.Remove(service);
+                        }
+
+                        var supportTickets = db.SupportTickets
+                            .Where(st => st.EmployeeID == employeeToDelete.EmployeeID)
+                            .ToList();
+
+                        foreach (var ticket in supportTickets)
+                        {
+                            db.SupportTickets.Remove(ticket);
+                        }
+
+                        db.Employees.Remove(employeeToDelete);
+                        db.SaveChanges();
+
+                        MessageBox.Show("Сотрудник и все связанные данные успешно удалены", "Успех",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        ShowEmployeesList();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при удалении сотрудника: {ex.Message}\n\n" +
+                        "Убедитесь, что нет других связанных записей, которые препятствуют удалению.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void DeleteTariff(Tariffs tariff)
@@ -105,37 +168,6 @@ namespace Retrolink
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ошибка при удалении тарифа: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-        private void DeleteEmployee(Employees employee)
-        {
-            if (MessageBox.Show($"Вы уверены, что хотите удалить сотрудника {employee.LastName} {employee.FirstName}?",
-                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    using (var db = new Entities())
-                    {
-                        var employeeToDelete = db.Employees.FirstOrDefault(emp => emp.EmployeeID == employee.EmployeeID);
-                        if (employeeToDelete != null)
-                        {
-                          
-                            var accountToDelete = db.Accounts.FirstOrDefault(a => a.EmployeeID == employeeToDelete.EmployeeID);
-                            if (accountToDelete != null)
-                            {
-                                db.Accounts.Remove(accountToDelete);
-                            }
-
-                            db.Employees.Remove(employeeToDelete);
-                            db.SaveChanges();
-                            ShowEmployeesList();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при удалении сотрудника: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -219,6 +251,7 @@ namespace Retrolink
                 MessageBox.Show($"Ошибка при удалении услуги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             var loginWindow = new LoginWindow();

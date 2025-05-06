@@ -10,8 +10,6 @@ namespace Retrolink.Admin_pg
     {
         public event Action<Tariffs> EditTariffRequested;
         public event Action<Tariffs> DeleteTariffRequested;
-        public event Action AddTariffRequested;
-
         public TariffsListPage()
         {
             InitializeComponent();

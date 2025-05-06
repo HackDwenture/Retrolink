@@ -30,10 +30,9 @@
                         Click="ShowCustomersList_Click"/>
                 <Button Content="Добавить клиента" Style="{StaticResource MenuButtonStyle}" 
                         Click="ShowAddCustomer_Click"/>
-                <!-- В StackPanel меню добавляем после разделителя -->
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Отчеты" Style="{StaticResource MenuButtonStyle}" 
-        Click="ShowReports_Click"/>
+                        Click="ShowReports_Click"/>
                 <Separator Style="{StaticResource MenuSeparatorStyle}"/>
                 <Button Content="Выход" Style="{StaticResource MenuButtonStyle}" Margin="0,50,0,0"
                         Click="LogoutButton_Click"/>

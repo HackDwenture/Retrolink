@@ -98,7 +98,6 @@ namespace Retrolink.Manager_pg
         {
             ExportToExcel(worksheet =>
             {
-                // Заголовки
                 worksheet.Cell(1, 1).Value = "Дата регистрации";
                 worksheet.Cell(1, 2).Value = "Фамилия";
                 worksheet.Cell(1, 3).Value = "Имя";
@@ -106,7 +105,6 @@ namespace Retrolink.Manager_pg
                 worksheet.Cell(1, 5).Value = "Email";
                 worksheet.Cell(1, 6).Value = "Адрес";
 
-                // Данные
                 int row = 2;
                 foreach (Customers customer in RegistrationsDataGrid.Items)
                 {
@@ -120,7 +118,6 @@ namespace Retrolink.Manager_pg
                     row++;
                 }
 
-                // Стиль для заголовков
                 var headerRange = worksheet.Range(1, 1, 1, 6);
                 headerRange.Style.Font.Bold = true;
                 headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
@@ -202,10 +199,8 @@ namespace Retrolink.Manager_pg
                     {
                         var worksheet = workbook.Worksheets.Add("Отчет");
 
-                        // Заполняем данные
                         fillData(worksheet);
 
-                        // Автонастройка ширины столбцов
                         worksheet.Columns().AdjustToContents();
 
                         workbook.SaveAs(saveFileDialog.FileName);
